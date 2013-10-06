@@ -1,1 +1,21 @@
-Readme
+Free IsoEngine by Adrien Jaguenet.
+
+A free (as in freedom) isometric rendering engine, currently working with 2D maps.
+
+Required dependencies:
+	libSDL
+	libSDL_image
+
+A small tutorial will be available on a PDF file (+ LaTeX sources) , as well as a documentation. But for now there is no tutorial nor documentation, even if an example of working code can be found at "main.cpp", chowing how to create a map, a camera, load a tile set and just look at the result
+
+HOW TO USE:
+-SDL_Init and SDL_Quit are automatically called with the static class IsoEng (only flag passed to SDL_Init() is SDL_INIT_VIDEO, will fix that later)
+-IsoEng contains 2 strings used to load tile images. Call IsoEng::setTileImgPath("foo/") and IsoEng::setTileImgExtension(".bar"), just call one of them or call none. Get them with IsoEng::getTileImgPath() and IsoImg::getTileImgExtension(). IsoEng class will contain more stuff like this, but not for now. There are no default paths nor default extension.
+-Load a new IsoPrototileSet (constructor doesn't need any argument)
+-Add at least 1 prototile with myprototileset.addNewTile("foobar"). If you called IsoEng::setTileImgPath("foo/") and IsoEng::setTileImgExtension(".bar") before, IMG_Load will try to load "foo/foobar.bar", so don't set the extension to things like ".pdf" or ".somethingThatIsNotABitMapImage"
+-Load a new IsoMap with constructor IsoMap(int size_x, int size_y, &myprototileset). Passing a NULL IsoPrototileSet will result in an immediate crash.
+-Load a new IsoCamera. There are two constructor: IsoCamera() and IsoCamera(x, y), if you want  to set the camera's position from the beggining
+-Now you are able to render the map with mymap.render(SDL_Surface* screen, IsoCamera* camera). NULL pointers cannot be passed (or your programm will crash).
+-Use mymap.getXFromScreen(int cx, int cy, IsoCamera* camera) and my.map.getYFromScreen(int cx, int cy, IsoCamera* camera) to get X and Y positions on the map from screen coordinates. IsoCamera pointer cannot be NULL.
+-Use mymap.setTileFromClick(SDL_Event* event, IsoCamera* camera, IsoPrototile* proto) to easily change a tile. As before, don't pass any NULL pointer. Get a prototile with myprototileset.prototiles[prototilenumber].
+
