@@ -1,7 +1,7 @@
 #include "IsoEng.hpp"
 
 std::string IsoEng::isotile_img_path = "";
-std::string IsoEng::isotile_img_extension = ".png";
+std::string IsoEng::isotile_img_extension = "";
 
 IsoEng::IsoEng()
 {
