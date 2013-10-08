@@ -28,9 +28,9 @@ typedef struct
 
 class IsoPrototileSet //can load prototiles from files
 {
-	protected:
-		std::vector<IsoPrototile*> prototiles;
 	public:
+		std::vector<IsoPrototile*> prototiles;
+
 		IsoPrototileSet();
 		IsoPrototileSet(std::string path);//path to the file to load prototiles (probably an xml file)
 		~IsoPrototileSet();

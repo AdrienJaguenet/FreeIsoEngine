@@ -6,7 +6,7 @@ IsoCamera::IsoCamera(int x, int y) : posX(x), posY(y) {}
 
 IsoCamera::~IsoCamera() {}
 
-void IsoCamera::centerOnTile(int x, int y)
+void IsoCamera::centerOnTile(int _x, int _y)
 {
 	//TODO:write this function
 }

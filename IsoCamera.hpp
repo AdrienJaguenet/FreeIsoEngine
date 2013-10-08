@@ -14,7 +14,7 @@ class IsoCamera
 		inline void setY(int y){posY = y;}
 		inline int getX() {return posX;}
 		inline int getY() {return posY;}
-		void centerOnTile(int x, int y);
+		void centerOnTile(int _x, int _y);
 };
 
 #endif

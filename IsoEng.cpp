@@ -2,6 +2,8 @@
 
 std::string IsoEng::isotile_img_path = "";
 std::string IsoEng::isotile_img_extension = "";
+std::string IsoEng::isoelement_img_path = "";
+std::string IsoEng::isoelement_img_extension = "";
 
 IsoEng::IsoEng()
 {

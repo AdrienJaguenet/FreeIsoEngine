@@ -22,18 +22,24 @@ int main(void)
 	if(screen == NULL) cout<<"Error while loading screen: "<<SDL_GetError()<<endl;
 
 	//init IsoEngine
-	IsoEng::setTileImgPath("../");
+	IsoEng::setTileImgPath("");
 	IsoEng::setTileImgExtension(".png");
+	IsoEng::setElementImgPath("");
+	IsoEng::setElementImgExtension(".png");
 
 	//load tiles
 	IsoPrototileSet prototiles;
 	prototiles.addNewTile("grass", 0);
+	prototiles.addNewTile("desert", 0);
 
 	//load map
-	IsoMap map(10, 10, &prototiles);
+	IsoMap map(15, 15, &prototiles);
+
+	//load protoelements
+	map.addNewProtoelement("tree", 0);
 
 	//load camera
-	IsoCamera camera;
+	IsoCamera camera(100, 100);
 
 	//miscellaneous variables used in main loop
 	int timeact(0), timebef(0);
@@ -50,15 +56,15 @@ int main(void)
 			{
 				switch(event.type)
 				{
+					//leave the program
 					case SDL_QUIT:
 						done = true;
 						break;
-
-					default: break;
 				}
 			}
 
 			//rendering
+			SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0) );
 			map.render(screen, &camera);
 			SDL_Flip(screen);
 			timeact = timebef;
