@@ -5,11 +5,11 @@ IsoMap::IsoMap() : IsoMap(25, 25, NULL) {}
 
 IsoMap::IsoMap(int sizex, int sizey) :  IsoMap(sizex, sizey, NULL){}
 
-IsoMap::IsoMap(int sizex, int sizey, IsoPrototileSet* prototiles) : sizex(sizex), sizey(sizey), prototiles(prototiles)
+IsoMap::IsoMap(int sizex, int sizey, IsoPT_Manager* pt_manager) : sizex(sizex), sizey(sizey), pt_manager(pt_manager)
 {
-	if(prototiles == NULL)
+	if(pt_manager == NULL)
 	{
-		std::cout<<"[Free IsoEngine warning]: instantiated an IsoMap with NULL prototiles set pointer. Expect a memory error."<<std::endl;
+		std::cout<<"[Free IsoEngine warning]: instantiated an IsoMap with NULL pt_manager set pointer. Expect a memory error."<<std::endl;
 	}
 
 	tiles = new IsoTile*[sizex];
@@ -19,20 +19,17 @@ IsoMap::IsoMap(int sizex, int sizey, IsoPrototileSet* prototiles) : sizex(sizex)
 	{
 		for(int j(0); j < sizey; ++j)
 		{
-			tiles[i][j].proto = prototiles->getDefaultTile();
+			tiles[i][j].proto = pt_manager->getDefaultTile();
 		}
 	}
 
-	m = (float) prototiles->getDefaultTileHeight() / (float) prototiles->getDefaultTileWidth();
+	m = (float) pt_manager->getDefaultTileHeight() / (float) pt_manager->getDefaultTileWidth();
 }
 
 IsoMap::~IsoMap()
 {
 	for(int i(0); i < sizex; ++i) delete tiles[i];
 	delete tiles;
-
-	for(int i (0); i < protoelements.size(); ++i) delete protoelements[i];
-	protoelements.pop_back();
 }
 
 void IsoMap::render(SDL_Surface* screen, IsoCamera* camera)
@@ -41,7 +38,7 @@ void IsoMap::render(SDL_Surface* screen, IsoCamera* camera)
 	SDL_Rect tilePos;//used in rendering
 	SDL_Rect elmPos;
 	IsoMapElement* element(NULL);
-	int currentElm(0), k(0), done(false), tile_h(prototiles->getDefaultTileHeight() ), tile_w(prototiles->getDefaultTileWidth() );
+	int tile_h(pt_manager->getDefaultTileHeight() ), tile_w(pt_manager->getDefaultTileWidth() );
 	for(int i(0); i < sizex; ++i)
 	{
 		for(int j(sizey - 1); j >= 0; --j)
@@ -52,7 +49,7 @@ void IsoMap::render(SDL_Surface* screen, IsoCamera* camera)
 			SDL_BlitSurface(tiles[i][j].proto->getImgSurface(), NULL, screen, &tilePos);
 		}
 	}
-	for(int k(0); k < map_elements.size(); ++k)
+	for(unsigned int k(0); k < map_elements.size(); ++k)
 	{
 		element = map_elements[k];
 		elmPos.x = (int) (element->posX * (tile_w / 2) + element->posY * (tile_w / 2) + camera->getX() + (element->proto->getImgWidth() ) );
@@ -63,19 +60,19 @@ void IsoMap::render(SDL_Surface* screen, IsoCamera* camera)
 
 float IsoMap::getXFromScreen(int cx, int cy, IsoCamera* camera)
 {
-	return ((float) cy - (float) camera->getY() - ( (float) prototiles->getDefaultTileHeight() / 2.0) + m * ( (float)cx - (float) camera->getX() ) ) 
+	return ((float) cy - (float) camera->getY() - ( (float) pt_manager->getDefaultTileHeight() / 2.0) + m * ( (float)cx - (float) camera->getX() ) ) 
 						/
-			(float) prototiles->getDefaultTileHeight();
+			(float) pt_manager->getDefaultTileHeight();
 }
 
 float IsoMap::getYFromScreen(int cx, int cy, IsoCamera* camera)
 {
-	return (m * ( (float)cx - (float) camera->getX() ) + ( (float) prototiles->getDefaultTileHeight() / 2.0) + (float) camera->getY() - (float) cy) 
+	return (m * ( (float)cx - (float) camera->getX() ) + ( (float) pt_manager->getDefaultTileHeight() / 2.0) + (float) camera->getY() - (float) cy) 
 						/
-			(float) prototiles->getDefaultTileHeight();
+			(float) pt_manager->getDefaultTileHeight();
 }
 
-void IsoMap::setTileFromClick(SDL_Event *event, IsoCamera* camera, IsoPrototile* proto)
+void IsoMap::setTileFromClick(SDL_Event *event, IsoCamera* camera, IsoPT* proto)
 {
 	float x( getXFromScreen(event->button.x, event->button.y, camera) );
 	float y( getYFromScreen(event->button.x, event->button.y, camera) );
@@ -89,7 +86,7 @@ void IsoMap::placeElement(IsoMapElement* element)
 		map_elements.push_back(element);
 		return;
 	}
-	for(int i(0); i < map_elements.size(); ++i)
+	for(unsigned int i(0); i < map_elements.size(); ++i)
 	{
 		if(map_elements[i]->posX <= element->posY)
 		{

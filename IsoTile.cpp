@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-IsoPrototile::IsoPrototile() : IsoPrototile("defaultTile", 0) {}
+IsoPT::IsoPT() : IsoPT("defaultTile", 0) {}
 
-IsoPrototile::IsoPrototile(std::string name, int flags) : flags(flags)
+IsoPT::IsoPT(std::string name, int flags) : flags(flags)
 {
 	this->name = IsoEng::getTileImgPath() + name + IsoEng::getTileImgExtension();
 	img = IMG_Load(this->name.c_str());
@@ -13,18 +13,20 @@ IsoPrototile::IsoPrototile(std::string name, int flags) : flags(flags)
 	this->name = name;
 }
 
-IsoPrototile::~IsoPrototile()
+IsoPT::~IsoPT()
 {
 	if(img != NULL)
 		SDL_FreeSurface(img);
 }
 
-IsoPrototileSet::IsoPrototileSet() {}
+IsoPT_Manager::IsoPT_Manager(IsoPT* defaultTile) : defaultTile(defaultTile) {}
 
-IsoPrototileSet::~IsoPrototileSet() {};
-
-void IsoPrototileSet::addNewTile(std::string name, int flags)
+IsoPT_Manager::~IsoPT_Manager()
 {
-	prototiles.push_back(new IsoPrototile(name, flags) );
+	delete defaultTile;
+	for(unsigned int i(0); i < _PTs.size(); ++i)
+	{
+		delete _PTs[i];
+		_PTs.pop_back();
+	}
 }
-

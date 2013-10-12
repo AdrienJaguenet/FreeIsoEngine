@@ -6,16 +6,16 @@
 #include <vector>
 #include <string>
 
-class IsoPrototile
+class IsoPT
 {
 	protected:
 		SDL_Surface* img;
 		std::string name;
 		int flags;
 	public:
-		IsoPrototile();
-		IsoPrototile(std::string name, int flags);
-		~IsoPrototile();
+		IsoPT();
+		IsoPT(std::string name, int flags);
+		~IsoPT();
 		inline int getImgHeight() const {return img->h;} 
 		inline int getImgWidth() const {return img->w;}
 		inline SDL_Surface* getImgSurface() const {return img;}
@@ -23,22 +23,21 @@ class IsoPrototile
 
 typedef struct
 {
-	IsoPrototile *proto; /*prototile linked*/
+	IsoPT *proto; /*prototile linked*/
 } IsoTile;
 
-class IsoPrototileSet //can load prototiles from files
+class IsoPT_Manager
 {
+	protected:
+		IsoPT* defaultTile;//used for rendering purposes, should have the same size as all the other tiles used
+		std::vector<IsoPT*> _PTs;
 	public:
-		std::vector<IsoPrototile*> prototiles;
-
-		IsoPrototileSet();
-		IsoPrototileSet(std::string path);//path to the file to load prototiles (probably an xml file)
-		~IsoPrototileSet();
-
-		inline IsoPrototile* getDefaultTile() {return prototiles[0];}
-		inline int getDefaultTileHeight() {return prototiles[0]->getImgHeight();}
-		inline int getDefaultTileWidth() {return prototiles[0]->getImgWidth();}
-		void addNewTile(std::string name, int flags);
+		IsoPT_Manager(IsoPT* defaultTile);
+		~IsoPT_Manager();
+		void inline addTile(std::string name, int flags){_PTs.push_back(new IsoPT(name, flags) );}
+		inline int getDefaultTileHeight(){return defaultTile == NULL ? _PTs[0]->getImgHeight() : defaultTile->getImgHeight(); }
+		inline int getDefaultTileWidth(){return defaultTile == NULL ? _PTs[0]->getImgWidth() : defaultTile->getImgWidth(); }
+		inline IsoPT* getDefaultTile(){return defaultTile == NULL ? _PTs[0] : defaultTile;}
 };
 
 #endif

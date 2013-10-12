@@ -28,15 +28,17 @@ int main(void)
 	IsoEng::setElementImgExtension(".png");
 
 	//load tiles
-	IsoPrototileSet prototiles;
-	prototiles.addNewTile("grass", 0);
-	prototiles.addNewTile("desert", 0);
-
-	//load map
-	IsoMap map(15, 15, &prototiles);
+	IsoPT_Manager _PTs(new IsoPT("grass", 0) );
+	_PTs.addTile("grass", 0);
+	_PTs.addTile("desert", 0);
 
 	//load protoelements
-	map.addNewProtoelement("tree", 0);
+	IsoPME_Manager _PMEs;
+	_PMEs.addPME(new IsoPME("tree", 0) );
+
+	//load map
+	IsoMap map(15, 15, &_PTs);
+
 
 	//load camera
 	IsoCamera camera(100, 100);

@@ -1,7 +1,7 @@
 #include "IsoMapElement.hpp"
 #include <iostream>
 
-IsoProtoMapElement::IsoProtoMapElement(std::string name, int flags) : flags(flags)
+IsoPME::IsoPME(std::string name, int flags) : flags(flags)
 {
 	this->name = IsoEng::getElementImgPath() + name + IsoEng::getElementImgExtension();
 	img = IMG_Load(this->name.c_str());
@@ -9,8 +9,21 @@ IsoProtoMapElement::IsoProtoMapElement(std::string name, int flags) : flags(flag
 	this->name = name;
 }
 
-IsoProtoMapElement::~IsoProtoMapElement()
+IsoPME::~IsoPME()
 {
 	if(img != NULL) SDL_FreeSurface(img);
+}
+
+IsoPME_Manager::IsoPME_Manager()
+{
+}
+
+IsoPME_Manager::~IsoPME_Manager()
+{
+	for(unsigned int i(0); i < _PMEs.size(); ++i)
+	{
+		delete _PMEs[i];
+		_PMEs.pop_back();
+	}
 }
 
