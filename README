@@ -1,5 +1,7 @@
 Free IsoEngine by Adrien Jaguenet.
 
+WARNING: THIS VERSION WAS UPDATED DUE TO MY SYSTEM BEING FUCKED UP, HADN'T BEEN TESTED AND MAY NOT WORK
+
 A free (as in freedom) isometric rendering engine, currently working with 2D maps.
 
 Required dependencies:
@@ -18,4 +20,21 @@ HOW TO USE:
 -Now you are able to render the map with mymap.render(SDL_Surface* screen, IsoCamera* camera). NULL pointers cannot be passed (or your programm will crash).
 -Use mymap.getXFromScreen(int cx, int cy, IsoCamera* camera) and my.map.getYFromScreen(int cx, int cy, IsoCamera* camera) to get X and Y positions on the map from screen coordinates. IsoCamera pointer cannot be NULL.
 -Use mymap.setTileFromClick(SDL_Event* event, IsoCamera* camera, IsoPrototile* proto) to easily change a tile. As before, don't pass any NULL pointer. Get a prototile with myprototileset.prototiles[prototilenumber].
+
+WORKING ON:
+-New universal sprite system
+  -Features animated sprites
+
+TODO:
+-Support other types of isometric maps:
+  -This includes screen/map interacting
+  -Hexagonal maps
+  -Square maps (currently works with diamond maps)
+  -Infinite maps (as in Minecraft and similars, with a chunks system)
+  -Map projections
+    -Make the map act as if projected from a cylinder or a torus
+-Support coast-like tiles with one-file system (like animations)
+  -This includes every transition between tiles
+-Rewrite elements systems to work (more) efficiently
+-Map saving on files
 
