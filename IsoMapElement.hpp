@@ -21,6 +21,14 @@ class IsoPME
 		inline SDL_Surface* getImg() {return img;}
 };
 
+class IsoPME_Animated : IsoPME
+{
+	protected:
+	public:
+		IsoPME_Animated();
+		~IsoPME_Animated();
+};
+
 typedef struct
 {
 	IsoPME* proto;
@@ -37,7 +45,6 @@ class IsoPME_Manager
 		~IsoPME_Manager();
 		inline void addPME(IsoPME* pme){_PMEs.push_back(pme);};
 		inline void deleteLastPME(){_PMEs.pop_back();};
-		
 };
 
 #endif

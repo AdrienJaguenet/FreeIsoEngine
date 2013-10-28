@@ -21,7 +21,9 @@ class IsoMap
 		//other stuff
 		IsoTile **tiles; //2D array of tiles
 		std::vector<IsoMapElement*> map_elements;
-
+		unsigned int nframe;//currently rendered frame id
+		unsigned int lastframetime;
+		unsigned int thisframetime;
 		float m;//used in screen/mouse interaction
 	public:
 		IsoMap();

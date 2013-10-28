@@ -28,16 +28,17 @@ int main(void)
 	IsoEng::setElementImgExtension(".png");
 
 	//load tiles
-	IsoPT_Manager _PTs(new IsoPT("grass", 0) );
+	IsoPT_Manager _PTs(new IsoPT_Animated("water_animated", 0, 1, 4) );
 	_PTs.addTile("grass", 0);
 	_PTs.addTile("desert", 0);
+	_PTs.addTile(new IsoPT_Animated("water_animated", 0, 1, 4) );
 
 	//load protoelements
 	IsoPME_Manager _PMEs;
 	_PMEs.addPME(new IsoPME("tree", 0) );
 
 	//load map
-	IsoMap map(15, 15, &_PTs);
+	IsoMap map(2, 2, &_PTs);
 
 
 	//load camera
@@ -46,6 +47,8 @@ int main(void)
 	//miscellaneous variables used in main loop
 	int timeact(0), timebef(0);
 	bool done(false);
+
+//	map.render(screen, &camera);
 
 	while(! done)
 	{

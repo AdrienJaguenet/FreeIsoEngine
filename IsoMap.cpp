@@ -5,7 +5,7 @@ IsoMap::IsoMap() : IsoMap(25, 25, NULL) {}
 
 IsoMap::IsoMap(int sizex, int sizey) :  IsoMap(sizex, sizey, NULL){}
 
-IsoMap::IsoMap(int sizex, int sizey, IsoPT_Manager* pt_manager) : sizex(sizex), sizey(sizey), pt_manager(pt_manager)
+IsoMap::IsoMap(int sizex, int sizey, IsoPT_Manager* pt_manager) : sizex(sizex), sizey(sizey), pt_manager(pt_manager), nframe(0), lastframetime(0), thisframetime(0)
 {
 	if(pt_manager == NULL)
 	{
@@ -20,6 +20,7 @@ IsoMap::IsoMap(int sizex, int sizey, IsoPT_Manager* pt_manager) : sizex(sizex), 
 		for(int j(0); j < sizey; ++j)
 		{
 			tiles[i][j].proto = pt_manager->getDefaultTile();
+			tiles[i][j].frameid = 0;
 		}
 	}
 
@@ -46,28 +47,30 @@ void IsoMap::render(SDL_Surface* screen, IsoCamera* camera)
 			//draw the tile
 			tilePos.x = (i * tile_w / 2) + (j * tile_w / 2) + camera->getX();
 			tilePos.y = (i * tile_h / 2) - (j * tile_h / 2) + camera->getY();
-			SDL_BlitSurface(tiles[i][j].proto->getImgSurface(), NULL, screen, &tilePos);
+			tiles[i][j].proto->render(screen, &tilePos, tiles[i][j].frameid);
+			if(nframe % 50 == 0)tiles[i][j].frameid++;
 		}
 	}
 	for(unsigned int k(0); k < map_elements.size(); ++k)
 	{
 		element = map_elements[k];
-		elmPos.x = (int) (element->posX * (tile_w / 2) + element->posY * (tile_w / 2) + camera->getX() + (element->proto->getImgWidth() ) );
+		elmPos.x = (int) (element->posX * (tile_w / 2) + element->posY * (tile_w / 2) + camera->getX() + element->proto->getImgWidth()  );
 		elmPos.y = (int) (element->posX * (tile_h / 2) - element->posY * (tile_h / 2) + camera->getY() - element->proto->getImgHeight() );
 		SDL_BlitSurface(map_elements[k]->proto->getImg(), NULL, screen, &elmPos);
 	}
+	nframe++;
 }
 
 float IsoMap::getXFromScreen(int cx, int cy, IsoCamera* camera)
 {
-	return ((float) cy - (float) camera->getY() - ( (float) pt_manager->getDefaultTileHeight() / 2.0) + m * ( (float)cx - (float) camera->getX() ) ) 
+	return ((float) cy - (float) camera->getY() - ( (float) pt_manager->getDefaultTileHeight() / 2.0) + m * ( (float)cx - (float) camera->getX() ) )
 						/
 			(float) pt_manager->getDefaultTileHeight();
 }
 
 float IsoMap::getYFromScreen(int cx, int cy, IsoCamera* camera)
 {
-	return (m * ( (float)cx - (float) camera->getX() ) + ( (float) pt_manager->getDefaultTileHeight() / 2.0) + (float) camera->getY() - (float) cy) 
+	return (m * ( (float)cx - (float) camera->getX() ) + ( (float) pt_manager->getDefaultTileHeight() / 2.0) + (float) camera->getY() - (float) cy)
 						/
 			(float) pt_manager->getDefaultTileHeight();
 }

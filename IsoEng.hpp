@@ -3,26 +3,22 @@
 
 #include <string>
 #include <SDL/SDL.h>
+#include <iostream>
 
 class IsoEng
 {
 	private:
-		static std::string isotile_img_path;//prototile images will be loaded from here
-		static std::string isotile_img_extension;//file extension of the protile images
-		static std::string isoelement_img_path;
-		static std::string isoelement_img_extension;
+		static std::string isoeng_img_path;//prototile images will be loaded from here
+		static std::string isoeng_img_extension;//file extension of the protile images
 		
 	public:
 		IsoEng();
 		~IsoEng();
-		inline static void setTileImgPath(std::string path){isotile_img_path = path;}
-		inline static void setTileImgExtension(std::string extension){isotile_img_extension = extension;}
-		inline static void setElementImgPath(std::string path) {isoelement_img_path = path;}
-		inline static void setElementImgExtension(std::string extension) {isoelement_img_extension = extension;}
-		inline static std::string getTileImgPath() {return isotile_img_path;}
-		inline static std::string getTileImgExtension() {return isotile_img_extension;}
-		inline static std::string getElementImgPath() {return isoelement_img_path;}
-		inline static std::string getElementImgExtension() {return isoelement_img_extension;}
+		inline static void setImgPath(std::string path){isoeng_img_path = path;}
+		inline static void setImgExtension(std::string extension){isoeng_img_extension = extension;}
+		inline static std::string getImgPath() {return isoeng_img_path;}
+		inline static std::string getImgExtension() {return isoeng_img_extension;}
+		inline static void printErr(std::string string){std::cout<<"[IsoEng error]: "<<string<<std::endl;}
 };
 
 #endif
