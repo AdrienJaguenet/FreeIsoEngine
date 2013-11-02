@@ -6,37 +6,20 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include "IsoSprites.hpp"
 
 class IsoPT
 {
 	protected:
-		SDL_Surface* img;
+                IsoSprite* sprite;
 		std::string name;
 		int flags;
 	public:
-		IsoPT();
-		IsoPT(std::string name, int flags);
+		IsoPT(IsoSprite* sprite, std::string name, int flags);
 		~IsoPT();
-		virtual inline int getImgHeight() const {return img != NULL ? img->h : 0;} 
-		virtual inline int getImgWidth() const {return img != NULL ? img->w : 0;}
-		inline SDL_Surface* getImgSurface() const {return img;}
-		virtual inline void render(SDL_Surface* screen, SDL_Rect* rect, unsigned char unused = 0, unsigned char unused2 = 0) const {SDL_BlitSurface(img, NULL, screen, rect);}
-};
-
-class IsoPT_Animated : public IsoPT
-{
-	protected:
-		unsigned char animationspeed;//in frames per second
-		unsigned int framesize;
-		unsigned char nframes;
-		bool horizAnim;
-	public:
-		IsoPT_Animated(std::string name, int flags, unsigned int animationspeed, unsigned int nframes);
-		~IsoPT_Animated();
-		void render(SDL_Surface* screen, SDL_Rect* rect, unsigned char frameid = 0, unsigned char unused = 0) const;
-
-		virtual inline int getImgHeight() const {return horizAnim ? img->h : framesize;}
-		virtual inline int getImgWidth() const {return horizAnim ? framesize : img->w;}
+		inline int getImgHeight() const {return sprite != NULL ? sprite->getImgHeight() : 0;} 
+		inline int getImgWidth() const {return sprite != NULL ? sprite->getImgWidth() : 0;}
+		inline void render(SDL_Surface* screen, SDL_Rect* pos, unsigned char frameid = 0, unsigned char time = 0) const {sprite->render(screen, pos, frameid, time);}
 };
 
 typedef struct
@@ -53,7 +36,7 @@ class IsoPT_Manager
 	public:
 		IsoPT_Manager(IsoPT* defaultTile);
 		~IsoPT_Manager();
-		void inline addTile(std::string name, int flags){_PTs.push_back(new IsoPT(name, flags) );}
+		void inline addTile(IsoSprite* sprite, std::string name, int flags){_PTs.push_back(new IsoPT(sprite, name, flags) );}
 		void inline addTile(IsoPT* pt) {_PTs.push_back(pt);}
 		inline int getDefaultTileHeight(){return defaultTile == NULL ? _PTs[0]->getImgHeight() : defaultTile->getImgHeight(); }
 		inline int getDefaultTileWidth(){return defaultTile == NULL ? _PTs[0]->getImgWidth() : defaultTile->getImgWidth(); }

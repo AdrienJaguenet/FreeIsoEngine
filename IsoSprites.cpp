@@ -38,10 +38,30 @@ IsoSprite_Animated::IsoSprite_Animated(std::string name, unsigned int fps, unsig
 	}
 }
 
-IsoSprite_Animated::IsoSprite_Animated(std::string name, SDL_Surface* surface, unsigned int fps, unsigned int nframes, bool delimg = true) : name(name), delimg(delimg), fps(fps), nframes(nframes)
+IsoSprite_Animated::IsoSprite_Animated(std::string name, SDL_Surface* surface, unsigned int fps, unsigned int nframes, bool delimg) : IsoSprite(name, delimg), fps(fps), nframes(nframes)
 {
 	horizAnim = img->h <= img->w;
 	framesize = horizAnim ? img->w / nframes : img->h / nframes;
 }
 
+void IsoSprite_Animated::render(SDL_Surface* screen, SDL_Rect* pos, unsigned int frameid, unsigned int time)
+{
+        frameid %= nframes;
+        SDL_Rect img_rect;
+	if(horizAnim)
+	{
+		img_rect.x = frameid * framesize;
+		img_rect.y = 0;
+		img_rect.w = framesize;
+		img_rect.h = img->h;
+	}
+	else
+	{
+		img_rect.x = 0;
+		img_rect.y = frameid * framesize;
+		img_rect.w = img->w;
+		img_rect.h = framesize;
+	}
+	SDL_BlitSurface(img, &img_rect, screen, pos);
+}
 

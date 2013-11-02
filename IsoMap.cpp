@@ -56,7 +56,7 @@ void IsoMap::render(SDL_Surface* screen, IsoCamera* camera)
 		element = map_elements[k];
 		elmPos.x = (int) (element->posX * (tile_w / 2) + element->posY * (tile_w / 2) + camera->getX() + element->proto->getImgWidth()  );
 		elmPos.y = (int) (element->posX * (tile_h / 2) - element->posY * (tile_h / 2) + camera->getY() - element->proto->getImgHeight() );
-		SDL_BlitSurface(map_elements[k]->proto->getImg(), NULL, screen, &elmPos);
+                map_elements[k]->proto->render(screen, &elmPos);
 	}
 	nframe++;
 }

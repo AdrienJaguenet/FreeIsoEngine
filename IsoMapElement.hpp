@@ -4,21 +4,23 @@
 #include <string>
 #include <vector>
 #include "IsoEng.hpp"
+#include "IsoSprites.hpp"
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
 class IsoPME
 {
 	protected:
-		SDL_Surface* img;
+                IsoSprite* sprite;
 		std::string name;
 		int flags;
 	public:
-		IsoPME(std::string name, int flags);
+		IsoPME(IsoSprite* sprite, std::string name, int flags);
 		~IsoPME();
-		inline int getImgHeight() {return img->h;}
-		inline int getImgWidth() {return img->w;}
-		inline SDL_Surface* getImg() {return img;}
+		inline int getImgHeight() {return sprite->getImgHeight();}
+		inline int getImgWidth() {return sprite->getImgWidth();}
+                inline void render(SDL_Surface *screen, SDL_Rect* pos, unsigned int frameid = 0, unsigned int time = 0)
+                {sprite->render(screen, pos, frameid, time);}
 };
 
 class IsoPME_Animated : IsoPME
