@@ -1,5 +1,11 @@
 all:
-	g++ -c -Wall main.cpp IsoMap.cpp IsoTile.cpp IsoEng.cpp IsoCamera.cpp -std=c++11
-	g++ -o isotest main.o IsoMap.o IsoTile.o IsoEng.o IsoCamera.o -lSDL -lSDL_image -lm
+        gcc -c -Wall IsoEng.cpp --std=c++11
+        gcc -c -Wall IsoSprites.cpp --std=c++11
+        gcc -c -Wall IsoMapElement.cpp --std=c++11
+        gcc -c -Wall IsoMap.cpp --std=c++11
+        gcc -c -Wall SDL_misc.cpp --std=c++11
+        gcc -c -Wall IsoCamera.cpp --std=c++11
+        mkdir binaries
+        mv *.o binaries/
 clean:
 	rm -f *.o
