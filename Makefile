@@ -1,10 +1,8 @@
+FILES=IsoEng.cpp IsoSprites.cpp IsoMapElement.cpp IsoMap.cpp SDL_misc.cpp IsoCamera.cpp
+FLAGS= -Wall -Werror --std=c++11 -g
+
 all:
-	gcc -c -Wall IsoEng.cpp --std=c++11
-	gcc -c -Wall IsoSprites.cpp --std=c++11
-	gcc -c -Wall IsoMapElement.cpp --std=c++11
-	gcc -c -Wall IsoMap.cpp --std=c++11
-	gcc -c -Wall SDL_misc.cpp --std=c++11
-	gcc -c -Wall IsoCamera.cpp --std=c++11
+	g++ $(FILES) $(FLAGS)
 	mkdir binaries
 	mv *.o binaries/
 clean:
